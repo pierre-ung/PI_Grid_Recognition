@@ -19,7 +19,7 @@ Methods
         Returns true if cirlcles were detected, false otherwize
 
     crop_circle : cv2 image
-        Crop the binary image to only keep circles inside the grid
+        Crop the binary image to only keep circles inside the grid, set the instance top left / bottom right coordinates
 """
 class Grid:
     def __init__(self, grid_path, resize_width):
@@ -28,6 +28,8 @@ class Grid:
         self.no_shadow_img = None
         self.cropped_img = None
         self.boxes_img = None
+        self.bot_right = None
+        self.top_left = None
 
         self.img = cv2.imread(grid_path)
         self.__px_width = resize_width
@@ -94,6 +96,8 @@ class Grid:
             if ymax > maxY:
                 maxY = ymax
         self.cropped_img = self.binary_img[minY:maxY, minX:maxX]
+        self.top_left = (minX, minY)
+        self.bot_right = (maxX, maxY)
         return self.cropped_img
         
     def get_mean_circles_diameter(self):
@@ -106,25 +110,56 @@ class Grid:
         if(self.cropped_img is None):
             self.crop_on_circles()            
         box_size = int(self.get_mean_circles_diameter())
-        x_lines = []
-        y_lines = []
+        x_lines = [self.top_left[0]]
+        y_lines = [self.top_left[1]]
 
+        # Iteration counter
+        it = 0
         # Set x lines coordinates
-        for i in range (0, self.cropped_img.shape[0], box_size+9):
-            x_lines.append(i)
-
+        line = x_lines[0]
+        while(line+box_size < self.bot_right[0]):
+            line = x_lines[it] + box_size
+            right_border_coords = []
+            left_border_coords = []
+            for c in self.circles:
+                if(c.is_betweenX(x_lines[it], x_lines[it] + box_size)):
+                    right_border_coords.append(c.center_x + c.radius)
+                    left_border_coords.append(c.center_x - c.radius)
+            if len(right_border_coords) > 0:
+                x_lines[it] = min(left_border_coords)
+                line = max(right_border_coords)
+            x_lines.append(line)
+            it += 1
+            
+        # Iteration counter
+        it = 0
         # Set y lines coordinates
-        for i in range (0, self.cropped_img.shape[1], box_size):
-            y_lines.append(i)
+        line = y_lines[0]
+        while(line+box_size < self.bot_right[1]):
+            line = y_lines[it] + box_size
+            bot_border_coords = []
+            top_border_coords = []
+            for c in self.circles:
+                if(c.is_betweenY(y_lines[it], y_lines[it] + box_size)):
+                    bot_border_coords.append(c.center_y + c.radius)
+                    top_border_coords.append(c.center_y - c.radius)
+            if len(bot_border_coords) > 0:
+                y_lines[it] = min(top_border_coords)
+                line = max(bot_border_coords)
+            y_lines.append(line)
+            it += 1
 
-        print(x_lines)
-        print(self.cropped_img.shape[0])
-        print(box_size)
         
-        # Draw boxes
-        self.boxes_img = self.cropped_img.copy()
-        # Draw columns
-        for i in x_lines:
-            start = (0, i)
-            stop = (self.boxes_img.shape[1], i)
-            cv2.line(self.boxes_img, start, stop, (0,0,0), 1)
+
+        ## Draw boxes
+        self.boxes_img = self.img.copy()
+        for x in x_lines:
+            start = (x, 0)
+            stop = (x, self.boxes_img.shape[1])
+            cv2.line(self.boxes_img, start, stop, (255,0,0), 3)
+
+        for y in y_lines:
+            start = (0, y)
+            stop = (self.boxes_img.shape[0], y)
+            cv2.line(self.boxes_img, start, stop, (255,0,0), 3)
+        

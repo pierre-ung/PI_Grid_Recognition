@@ -26,3 +26,9 @@ class HashiCircle:
 
     def __str__(self):
         return "center_coords: {0}\nradius: {1}\nposition: {2}".format((self.center_x, self.center_y), self.radius, self.position)
+
+    def is_betweenX(self, firstCoord, secondCoord):
+        return firstCoord <= self.center_x  <= secondCoord
+
+    def is_betweenY(self, firstCoord, secondCoord):
+        return firstCoord <= self.center_y <= secondCoord
