@@ -15,6 +15,20 @@ radius : int
 position : (int, int)
     The position of the circle in the game grid (e.g: top left box is (0,0), the one at its right is (1, 0))
     (-1, -1) means that the position is unknown
+
+
+Methodes
+--------
+
+is_betweenX : bool
+Returns True if the circle center is between two given vertical lines
+
+is_betweenY : bool
+Returns True if the circle center is between two given horizontal lines
+
+is_between : bool
+Returns True if the circle center is contains in a box defined by two horizontal and two vertical lines
+
 """
 
 class HashiCircle:
@@ -32,3 +46,6 @@ class HashiCircle:
 
     def is_betweenY(self, firstCoord, secondCoord):
         return firstCoord <= self.center_y <= secondCoord
+
+    def is_between(self, left, right, top, bot):
+        return self.is_betweenX(left, right) and self.is_betweenY(top, bot)

@@ -23,6 +23,7 @@ Methods
 """
 class Grid:
     def __init__(self, grid_path, resize_width):
+        # Grid images
         self.binary_img = None
         self.blurred_img = None
         self.no_shadow_img = None
@@ -31,6 +32,11 @@ class Grid:
         self.bot_right = None
         self.top_left = None
 
+        # Game dimensions
+        self.width = None
+        self.height = None
+
+        # Grid preparation 
         self.img = cv2.imread(grid_path)
         self.__px_width = resize_width
         self.__prepare_image()
@@ -149,9 +155,7 @@ class Grid:
             y_lines.append(line)
             it += 1
 
-        
-
-        ## Draw boxes
+        ## Draw boxes (optional)
         self.boxes_img = self.img.copy()
         for x in x_lines:
             start = (x, 0)
@@ -163,3 +167,18 @@ class Grid:
             stop = (self.boxes_img.shape[0], y)
             cv2.line(self.boxes_img, start, stop, (255,0,0), 3)
         
+        ## Set circles positions
+        positionsX = []
+        positionsY = []
+        for i in range(1, len(x_lines)):
+            for j in range(1, len(y_lines)):
+                for c in self.circles:
+                    if c.is_between(x_lines[i-1], x_lines[i], y_lines[j-1], y_lines[j]):
+                        c.position = (i-1, j-1) 
+                        positionsX.append(i-1)
+                        positionsY.append(j-1)
+                        break
+        
+        ## Set game width / height
+        self.width = max(max(positionsX), max(positionsY))
+        self.height = self.width
