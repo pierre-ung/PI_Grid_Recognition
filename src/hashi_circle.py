@@ -16,6 +16,8 @@ position : (int, int)
     The position of the circle in the game grid (e.g: top left box is (0,0), the one at its right is (1, 0))
     (-1, -1) means that the position is unknown
 
+image : cv2.image
+    The image corresponding to the circle
 
 Methodes
 --------
@@ -32,11 +34,12 @@ Returns True if the circle center is contains in a box defined by two horizontal
 """
 
 class HashiCircle:
-    def __init__(self, center_x, center_y, radius):
+    def __init__(self, center_x, center_y, radius, grid_img):
         self.center_x = center_x
         self.center_y = center_y
         self.radius = radius
         self.position = (-1, -1)
+        self.image = grid_img[center_y-radius:center_y+radius, center_x-radius:center_x+radius]
 
     def __str__(self):
         return "center_coords: {0}\nradius: {1}\nposition: {2}".format((self.center_x, self.center_y), self.radius, self.position)

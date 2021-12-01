@@ -2,6 +2,16 @@ import cv2
 import numpy as np
 from numpy.core.fromnumeric import mean
 import hashi_circle as hc
+
+class NoCircleException(Exception):
+    pass
+
+class UknwCircleCoordsException(Exception):
+    def __init__(self, circle, message="The following circle coordinates cannot be determined. Could be because of a bad drawing."):
+        self.circle = circle
+        self.message = message + " " + str(self.circle)
+        super().__init__(self.message)
+
 """
 A class to recognize and store a grid structure (without digit recognition)
 
@@ -65,20 +75,23 @@ class Grid:
         # Empty circles list
         self.circles = []
         # Detect circles (center / radius)
-        circles = cv2.HoughCircles(self.blurred_img, cv2.HOUGH_GRADIENT, 1, minDist=minDist, param1=param1, param2=param2, minRadius=minRadius, maxRadius=maxRadius)
+        detected_circles = cv2.HoughCircles(self.blurred_img, cv2.HOUGH_GRADIENT, 1, minDist=minDist, param1=param1, param2=param2, minRadius=minRadius, maxRadius=maxRadius)
         # Add circles to the list of circles
-        if circles is not None:
-            circles = np.uint16(np.around(circles))
-            for i in circles[0, :]:
+        if detected_circles is not None:
+            detected_circles = np.uint16(np.around(detected_circles))
+            # Draw circles on the grid (optional)
+            for i in detected_circles[0, :]:
                 center = (i[0], i[1])
                 # circle center
                 cv2.circle(self.circles_img, center, 1, (0, 100, 100), 3)
                 # circle outline
                 radius = i[2]
                 cv2.circle(self.circles_img, center, radius, (255, 0, 255), 3)
-            for circle in circles[0]:
+            # Set the circle list
+            for circle in detected_circles[0]:
                 # Add circle to the circles list
-                self.circles.append(hc.HashiCircle(circle[0], circle[1], circle[2]))
+                self.circles.append(hc.HashiCircle(circle[0], circle[1], circle[2], self.binary_img))
+            
             return True
         return False    
 
@@ -106,6 +119,7 @@ class Grid:
         self.bot_right = (maxX, maxY)
         return self.cropped_img
         
+
     def get_mean_circles_diameter(self):
         sumc = 0
         for c in self.circles:
@@ -158,13 +172,13 @@ class Grid:
         ## Draw boxes (optional)
         self.boxes_img = self.img.copy()
         for x in x_lines:
-            start = (x, 0)
-            stop = (x, self.boxes_img.shape[1])
+            start = (x, y_lines[0])
+            stop = (x, y_lines[-1])
             cv2.line(self.boxes_img, start, stop, (255,0,0), 3)
 
         for y in y_lines:
-            start = (0, y)
-            stop = (self.boxes_img.shape[0], y)
+            start = (x_lines[0], y)
+            stop = (x_lines[-1], y)
             cv2.line(self.boxes_img, start, stop, (255,0,0), 3)
         
         ## Set circles positions
@@ -181,4 +195,9 @@ class Grid:
         
         ## Set game width / height
         self.width = max(max(positionsX), max(positionsY))
-        self.height = self.width
+        self.height = self.width # We assume we only have square grids
+
+        # Check if all circles have coordinates:
+        for c in self.circles:
+            if(c.position == (-1, -1)):
+                raise(UknwCircleCoordsException(c))
