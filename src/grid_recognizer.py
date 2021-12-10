@@ -32,7 +32,7 @@ Methods
         Crop the binary image to only keep circles inside the grid, set the instance top left / bottom right coordinates
 """
 class Grid:
-    def __init__(self, grid_path, resize_width):
+    def __init__(self, img, resize_width):
         # Grid images
         self.binary_img = None
         self.blurred_img = None
@@ -47,11 +47,14 @@ class Grid:
         self.height = None
 
         # Grid preparation 
-        self.img = cv2.imread(grid_path)
+        self.img = img
         self.__px_width = resize_width
         self.__prepare_image()
         self.circles_img = self.img.copy()
         self.circles = []
+
+        # JSON structure
+        self.json = None
 
     def __prepare_image(self):
         self.img = cv2.resize(self.img, (self.__px_width, self.__px_width))
@@ -201,3 +204,12 @@ class Grid:
         for c in self.circles:
             if(c.position == (-1, -1)):
                 raise(UknwCircleCoordsException(c))
+
+    def generate_json(self):
+        json = {}
+        json["grid"] = {}
+        json["grid"]["circles"] = {}
+        for c in self.circles:
+            json["grid"]["circles"]["circle"]
+
+        return
