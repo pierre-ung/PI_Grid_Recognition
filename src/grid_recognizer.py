@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 from numpy.core.fromnumeric import mean
 import hashi_circle as hc
+import json
+import hashitools as ht
 
 class NoCircleException(Exception):
     pass
@@ -197,7 +199,7 @@ class Grid:
                         break
         
         ## Set game width / height
-        self.width = max(max(positionsX), max(positionsY))
+        self.width = max(max(positionsX), max(positionsY)) + 1
         self.height = self.width # We assume we only have square grids
 
         # Check if all circles have coordinates:
@@ -206,10 +208,15 @@ class Grid:
                 raise(UknwCircleCoordsException(c))
 
     def generate_json(self):
-        json = {}
-        json["grid"] = {}
-        json["grid"]["circles"] = {}
-        for c in self.circles:
-            json["grid"]["circles"]["circle"]
-
-        return
+        jsonG = {}
+        jsonG["grid"] = {}
+        jsonG["grid"]["dimensions"] = self.width
+        jsonG["grid"]["circles"] = [None]*len(self.circles)
+        for i in range(len(self.circles)):
+            c = self.circles[i]
+            jsonG["grid"]["circles"][i] = {}
+            jsonG["grid"]["circles"][i]["circle"] = {}
+            jsonG["grid"]["circles"][i]["circle"]["index"] = c.position[0] + c.position[1]*self.width
+            jsonG["grid"]["circles"][i]["circle"]["img"] = ht.cv_to_b64_str(c.image)
+        self.json = json.dumps(jsonG) 
+        return self.json
