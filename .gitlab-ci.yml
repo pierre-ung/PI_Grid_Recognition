@@ -36,13 +36,15 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Build OK"
     
 
-unit-test-job:   # This job runs in the test stage.
+funct-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - echo "Running unit tests..."
+    - echo "Running tests"
+    - python3 src/tests/test_recognizer.py
+    - echo "Tests OK"
 
 lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+  stage: test    # It can run at the same time as funct-test-job (in parallel).
   script:
     - echo "Linting code..."
     - echo "No lint issues found."

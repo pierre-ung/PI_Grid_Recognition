@@ -32,7 +32,7 @@ def create_structure():
     
     # Recognizer
     ## Creation
-    reco = recognizer.Grid(img, 1200)
+    reco = recognizer.Grid(img, resize_width=1200)
     ## Circle detection
     reco.detect_circles()
     ## Set circle game coordinates

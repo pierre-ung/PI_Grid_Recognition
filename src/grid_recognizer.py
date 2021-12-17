@@ -34,7 +34,7 @@ Methods
         Crop the binary image to only keep circles inside the grid, set the instance top left / bottom right coordinates
 """
 class Grid:
-    def __init__(self, img, resize_width):
+    def __init__(self, img, resize_width=800):
         # Grid images
         self.binary_img = None
         self.blurred_img = None
