@@ -21,7 +21,6 @@ before_script:
   - apt-get install ffmpeg libsm6 libxext6 -y
   - python --version
   - pip install -r py-requirements.txt
-  - ls
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -34,20 +33,13 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "building"
     - python3 src/main.py build-only
     - echo "Build OK"
-    
 
 funct-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - echo "Running tests"
-    - python3 src/test_recognizer.py
+    - python3 src/tests.py
     - echo "Tests OK"
-
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as funct-test-job (in parallel).
-  script:
-    - echo "Linting code..."
-    - echo "No lint issues found."
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
