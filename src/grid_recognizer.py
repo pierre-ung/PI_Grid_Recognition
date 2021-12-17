@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from numpy.core.fromnumeric import mean
 import hashi_circle as hc
 import json
 import hashitools as ht

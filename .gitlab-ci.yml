@@ -40,7 +40,7 @@ funct-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - echo "Running tests"
-    - python3 src/tests/test_recognizer.py
+    - python3 src/test_recognizer.py
     - echo "Tests OK"
 
 lint-test-job:   # This job also runs in the test stage.
