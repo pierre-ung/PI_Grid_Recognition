@@ -17,6 +17,13 @@ default:
   image: python:3
 
 before_script:
+  - apt-get -qq install -y python python-virtualenv python-pip
+  - virtualenv venv
+  - . venv/bin/activate
+  - python -V
+  - apt-get install ffmpeg libsm6 libxext6  -y
+  - pip3 install --no-cache-dir --upgrade pip && \
+    pip3 install --no-cache-dir -r py-requirements.txt
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -26,10 +33,7 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - apt-get update
-    - apt-get install ffmpeg libsm6 libxext6  -y
-    - pip install --no-cache-dir --upgrade pip && \
-      pip install --no-cache-dir -r py-requirements.txt
+    - . venv/bin/activate
     - python main.py
 
 unit-test-job:   # This job runs in the test stage.
