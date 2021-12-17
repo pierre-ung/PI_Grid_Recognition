@@ -33,7 +33,6 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "building"
     - python3 src/main.py build-only
-    - killall python3
     - echo "Build OK"
     
 
