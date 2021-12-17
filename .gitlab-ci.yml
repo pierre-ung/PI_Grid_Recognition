@@ -17,9 +17,6 @@ default:
   image: python:3
 
 before_script:
-  - apt-get -qq install -y python python-virtualenv python-pip
-  - virtualenv venv
-  - . venv/bin/activate
   - python -V
   - apt-get install ffmpeg libsm6 libxext6  -y
   - pip install --no-cache-dir -r py-requirements.txt
