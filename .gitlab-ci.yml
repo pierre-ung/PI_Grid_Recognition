@@ -31,15 +31,16 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - echo "building"
-    - python3 src/main.py build-only
+    - cd src
+    - python3 main.py build-only
     - echo "Build OK"
 
 funct-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - ls src/
     - echo "Running tests"
-    - python3 src/tests.py
+    - cd src/tests/
+    - python3 tests.py
     - echo "Tests OK"
 
 deploy-job:      # This job runs in the deploy stage.
