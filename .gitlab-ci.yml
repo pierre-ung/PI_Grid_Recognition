@@ -19,6 +19,7 @@ default:
 before_script:
   - python --version
   - echo "Before scirpt OK"
+  - pip install -r py-requirements.txt
 
 stages:          # List of stages for jobs, and their order of execution
   - build
