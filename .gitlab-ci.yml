@@ -17,10 +17,6 @@ default:
   image: python:3
 
 before_script:
-  - apt-get update
-  - apt-get install ffmpeg libsm6 libxext6  -y
-  - pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r py-requirements.txt
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -30,6 +26,10 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
+    - apt-get update
+    - apt-get install ffmpeg libsm6 libxext6  -y
+    - pip install --no-cache-dir --upgrade pip && \
+      pip install --no-cache-dir -r py-requirements.txt
     - python main.py
 
 unit-test-job:   # This job runs in the test stage.
