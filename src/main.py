@@ -1,8 +1,10 @@
+from logging import shutdown
 import numpy as np
 import grid_recognizer as recognizer
 from flask import Flask, request, abort, jsonify, Response
 from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api, reqparse
+import sys
 import hashitools as ht
 
 
@@ -46,5 +48,7 @@ def create_structure():
 
 ###########################################
 if __name__ == "__main__":
-    app.run(port=50000)
-
+    if(len(sys.argv) > 1 and sys.argv[1] == "build-only"):
+        exit(0)
+    app.run(host="0.0.0.0", port=50000)
+    
