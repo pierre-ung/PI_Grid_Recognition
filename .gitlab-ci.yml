@@ -20,6 +20,7 @@ before_script:
   - python --version
   - echo "Before scirpt OK"
   - pip install -r py-requirements.txt
+  - ls
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -29,6 +30,7 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
+    - python3 ./main.py
     - echo "building"
 
 unit-test-job:   # This job runs in the test stage.
