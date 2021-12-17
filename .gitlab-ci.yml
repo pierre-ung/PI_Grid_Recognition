@@ -22,8 +22,7 @@ before_script:
   - . venv/bin/activate
   - python -V
   - apt-get install ffmpeg libsm6 libxext6  -y
-  - pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install --no-cache-dir -r py-requirements.txt
+  - pip install --no-cache-dir -r py-requirements.txt
 
 stages:          # List of stages for jobs, and their order of execution
   - build
