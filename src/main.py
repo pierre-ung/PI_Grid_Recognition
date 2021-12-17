@@ -43,7 +43,7 @@ def create_structure():
         abort(412, e)
     
     # Generate json file describing the grid 
-    reco.generate_json()
+    reco.generate_json()a
     return Response(reco.json, mimetype='application/json')
 
 ###########################################
