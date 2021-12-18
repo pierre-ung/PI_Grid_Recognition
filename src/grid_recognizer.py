@@ -33,7 +33,7 @@ Methods
         Crop the binary image to only keep circles inside the grid, set the instance top left / bottom right coordinates
 """
 class Grid:
-    def __init__(self, img, resize_width=800):
+    def __init__(self, img, resize_width=1280):
         # Grid images
         self.binary_img = None
         self.blurred_img = None
@@ -49,7 +49,7 @@ class Grid:
 
         # Grid preparation 
         self.img = img
-        self.__px_width = resize_width
+        self.__px_width = resize_width if resize_width <= 1280 else 1280
         self.__prepare_image()
         self.circles_img = self.img.copy()
         self.circles = []
@@ -217,5 +217,5 @@ class Grid:
             jsonG["grid"]["circles"][i]["circle"] = {}
             jsonG["grid"]["circles"][i]["circle"]["index"] = c.position[0] + c.position[1]*self.width
             jsonG["grid"]["circles"][i]["circle"]["img"] = ht.cv_to_b64_str(c.image)
-        self.json = json.dumps(jsonG) 
+        self.json = json.dumps(jsonG)
         return self.json
