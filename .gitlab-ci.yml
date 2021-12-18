@@ -16,38 +16,22 @@
 default:
   image: python:3
 
-
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-cache:
-  paths:
-    - .cache/pip
-    - venv/
-
 before_script:
   - apt-get update
   - apt-get install ffmpeg libsm6 libxext6 -y
-  - pip install virtualenv
-  - source venv/bin/activate
-  #- pip install -r py-requirements.txt
+  - python --version
+  - pip install -r py-requirements.txt
 
 stages:          # List of stages for jobs, and their order of execution
-  - prepare
   - build
   - test
   - deploy
 
-prepare-job:
-  stage: prepare
-  script:
-    - pip install -r py-requirements.txt
-
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - echo "building"
-    - cd src
+    - echo "Building"
+    - cd src/
     - python3 main.py build-only
     - echo "Build OK"
 
