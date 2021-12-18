@@ -20,6 +20,11 @@ default:
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
+cache:
+  path:
+    - .cache/pip
+    - venv/
+
 before_script:
   - apt-get update
   - apt-get install ffmpeg libsm6 libxext6 -y
