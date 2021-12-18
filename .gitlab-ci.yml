@@ -21,7 +21,7 @@ variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 cache:
-  path:
+  paths:
     - .cache/pip
     - venv/
 
