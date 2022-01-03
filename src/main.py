@@ -49,5 +49,5 @@ def create_structure():
 if __name__ == "__main__":
     if(len(sys.argv) > 1 and sys.argv[1] == "build-only"):
         exit(0)
-    app.run(host="0.0.0.0", port=50000)
+    app.run(host='0.0.0.0', port=5001)
     
