@@ -23,7 +23,7 @@ def handle_error(e):
 Main API route
 Returns a JSON describing the grid 
 '''
-@app.route('/grid_pic', methods=['POST'])
+@app.route('/grid', methods=['POST'])
 def create_structure():
     # Decode the base64 img (-> cv2 image)
     b64 = request.values['photo_b64'] 
@@ -49,5 +49,5 @@ def create_structure():
 if __name__ == "__main__":
     if(len(sys.argv) > 1 and sys.argv[1] == "build-only"):
         exit(0)
-    app.run(host="0.0.0.0", port=50000)
+    app.run(host="0.0.0.0", port=50001)
     
