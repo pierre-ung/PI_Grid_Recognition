@@ -33,7 +33,7 @@ Methods
         Crop the binary image to only keep circles inside the grid, set the instance top left / bottom right coordinates
 """
 class Grid:
-    def __init__(self, img, resize_width=1280):
+    def __init__(self, img, resize_width=1000):
         # Grid images
         self.binary_img = None
         self.blurred_img = None
@@ -159,7 +159,7 @@ class Grid:
         it = 0
         # Set y lines coordinates
         line = y_lines[0]
-        while(line+box_size < self.bot_right[1]):
+        while(line < self.bot_right[1]):
             line = y_lines[it] + box_size
             bot_border_coords = []
             top_border_coords = []
@@ -184,7 +184,7 @@ class Grid:
             start = (x_lines[0], y)
             stop = (x_lines[-1], y)
             cv2.line(self.boxes_img, start, stop, (255,0,0), 3)
-        
+
         ## Set circles positions
         positionsX = []
         positionsY = []

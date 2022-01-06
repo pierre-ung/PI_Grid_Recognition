@@ -13,6 +13,21 @@
         "grid2.jpg": {
             "dimensions": 7,
             "circles_index": [0, 3, 6, 8, 22, 24, 27, 33, 36, 41, 42, 45, 47]
+        },
+
+        "grid3.jpg": {
+            "dimensions": 7,
+            "circles_index": [0, 2, 4, 6, 18, 21, 32, 42, 44, 46, 48]
+        },
+
+        "grid4.jpg": {
+            "dimensions": 7,
+            "circles_index": [0, 2, 6, 11, 23, 25, 28, 34, 42, 44, 48]
+        },
+
+        "grid5.jpg": {
+            "dimensions": 7,
+            "circles_index": [0, 6, 14, 16, 18, 30, 33, 42, 44, 48]
         }
 
 
