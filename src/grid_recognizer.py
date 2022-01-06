@@ -141,7 +141,7 @@ class Grid:
         it = 0
         # Set x lines coordinates
         line = x_lines[0]
-        while(line+box_size < self.bot_right[0]):
+        while(line < self.bot_right[0]):
             line = x_lines[it] + box_size
             right_border_coords = []
             left_border_coords = []
@@ -200,12 +200,11 @@ class Grid:
         ## Set game width / height
         self.width = max(max(positionsX), max(positionsY)) + 1
         self.height = self.width # We assume we only have square grids
-
         # Check if all circles have coordinates:
         for c in self.circles:
             if(c.position == (-1, -1)):
                 raise(UknwCircleCoordsException(c))
-
+       
     def generate_json(self):
         jsonG = {}
         jsonG["grid"] = {}
