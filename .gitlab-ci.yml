@@ -18,6 +18,7 @@ default:
 
 before_script:
   - apt-get update
+  - apt-get install curl
   - apt-get install ffmpeg libsm6 libxext6 -y
   - python --version
   - pip install -r py-requirements.txt
@@ -47,4 +48,5 @@ deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - echo "Deploying application..."
+    - curl http://195.83.10.29:443/deploy_grid_struct
     - echo "Application successfully deployed."
