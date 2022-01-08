@@ -9,5 +9,5 @@ RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r py-requirements.txt
 
-EXPOSE 5001
+EXPOSE 50001
 CMD python main.py
