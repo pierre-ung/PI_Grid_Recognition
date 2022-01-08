@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Pull the repository
-git pull
+
+sudo -u user git pull
 
 # stop / rm the old running docker
 echo -e $1 | sudo -S docker stop grid_reco_ctn
