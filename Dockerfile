@@ -6,8 +6,8 @@ ADD py-requirements.txt /
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r py-requirements.txt
+RUN pip3 install --no-cache-dir --default-timeout=1000 --upgrade pip
+RUN pip3 install --no-cache-dir --default-timeout=1000 -r py-requirements.txt
 
 EXPOSE 50001
-CMD python main.py
+CMD python3 main.py
