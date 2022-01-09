@@ -11,8 +11,14 @@ import grid_recognizer
 class StructureRecoTest(unittest.TestCase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName=methodName)
-        self.gridnames = [x for x in os.listdir("test_grids") if x.endswith(".jpg") or x.endswith(".jpeg")]
+        print(f"----- TEST: {methodName} -----")
+        self.gridnames = []
         self.expected = json.load(open("test_grids/expected_results.json", "r"))
+        for gn in [x for x in os.listdir("test_grids") if (x.endswith(".jpg") or x.endswith(".jpeg")) and x.startswith("grid")]:
+            if(gn in self.expected["expected"].keys()):
+                self.gridnames.append(gn)
+            else:
+                print(f"WARNING: {gn} will be ignored, no expected result found.\n")
 
     # Test if the number of detected circles is correct
     def test_detect_circles(self):
@@ -22,7 +28,8 @@ class StructureRecoTest(unittest.TestCase):
             reco.detect_circles()
             self.assertEqual(len(reco.circles), \
                 len(self.expected["expected"][gn]["circles_index"]))
-    
+        
+
     # Test if circles coordinates are  
     def test_circles_position(self):
         for gn in self.gridnames:
