@@ -214,7 +214,7 @@ class Grid:
             c = self.circles[i]
             jsonG["grid"]["circles"][i] = {}
             jsonG["grid"]["circles"][i]["circle"] = {}
-            jsonG["grid"]["circles"][i]["circle"]["index"] = c.position[0] + c.position[1]*self.width
+            jsonG["grid"]["circles"][i]["circle"]["position"] = c.position[0] + c.position[1]*self.width
             jsonG["grid"]["circles"][i]["circle"]["img"] = ht.cv_to_b64_str(c.image)
         self.json = json.dumps(jsonG)
         return self.json
