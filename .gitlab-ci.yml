@@ -48,5 +48,5 @@ deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - echo "Deploying application..."
-    - curl http://195.83.10.29:443/deploy_grid_struct
+    - curl http://195.83.10.29:443/deploy?name=hashi-grid-struct-reco
     - echo "Application successfully deployed."
