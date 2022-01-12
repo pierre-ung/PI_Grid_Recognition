@@ -51,7 +51,7 @@ class Grid:
         self.img = img
         self.__px_width = resize_width if resize_width <= 1280 else 1280
         self.__prepare_image()
-        self.circles_img = self.img.copy()
+        self.circles_img = cv2.cvtColor(self.binary_img.copy(),cv2.COLOR_GRAY2RGB)
         self.circles = []
 
         # JSON structure
@@ -174,7 +174,8 @@ class Grid:
             it += 1
 
         ## Draw boxes (optional)
-        self.boxes_img = self.img.copy()
+        self.boxes_img = cv2.cvtColor(self.binary_img.copy(),cv2.COLOR_GRAY2RGB)
+        
         for x in x_lines:
             start = (x, y_lines[0])
             stop = (x, y_lines[-1])
