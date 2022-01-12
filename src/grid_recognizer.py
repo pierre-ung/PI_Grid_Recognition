@@ -217,3 +217,10 @@ class Grid:
             jsonG["grid"]["circles"][i]["img"] = ht.cv_to_b64_str(c.image)
         self.json = json.dumps(jsonG)
         return self.json
+
+    def save_images(self, path):
+        cv2.imwrite(path+"image.jpg", self.img)
+        cv2.imwrite(path+"no_shadow_image.jpg", self.no_shadow_img)
+        cv2.imwrite(path+"binary_image.jpg", self.binary_img)
+        cv2.imwrite(path+"circles_image.jpg", self.circles_img)
+        cv2.imwrite(path+"boxes_image.jpg", self.boxes_img)
