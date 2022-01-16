@@ -45,7 +45,7 @@ Run the service:
 
 ``` python main.py```
 
-### Use the service
+## How tu use
 
 To use this service, you have to POST a jpeg image encoded in base64 (field "photo_b64"), to <ip_adress>:50001/grid.
 
