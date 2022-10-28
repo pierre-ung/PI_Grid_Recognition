@@ -26,9 +26,6 @@ The service is ready to be deployed in a docker container:
   
 
 ``` ./deploy.sh <root password> ```
-
-  
-
   
 
 ### With python
@@ -47,7 +44,12 @@ Run the service:
 
 ## How tu use
 
+### Input
 To use this service, you have to POST a jpeg image encoded in base64 (field "photo_b64"), to <ip_adress>:50001/grid.
+
+![Hashiwokakero Grid](img/input-hashi-grid-example.png "Hashiwokakero Grid")
+
+### Output
 
 The service returns a JSON with the followaing content:
 
